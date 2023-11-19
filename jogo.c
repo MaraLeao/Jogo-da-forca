@@ -4,14 +4,81 @@
 
 void desenharForca () 
 {
-    //array da forca(com o indice 0 sendo o desenho da forca)
+   //desenho da forca fazendo uso do switch case
+    printf("\n\n");
+
+    switch (TENTATIVAS) {
+    case 6:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 5:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 4:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf("  |   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 3:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 2:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\\  |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 1:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\  |\n");
+        printf(" /    |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 0:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\  |\n");
+        printf(" / \  |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    }
 }
 
 int main() {
 
     const int TENTATIVAS = 6;
 
-    char palavra[250], letras_erradas[27], letra, status_atual;
+    char palavra[250], letras_erradas[6], letra, status_atual;
     int  qtd_erro = 0, qtd_acerto = 0, jogDaVez, qtd_jogadores, posicao, i;
 
     //Quantos jogadores sao
