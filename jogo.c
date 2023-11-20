@@ -225,9 +225,7 @@ int main() {
         } else {
             dadosJogo.qtd_erro++;
             printf("(╯°□°）╯︵ ┻━┻ A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
-
         }
-
 
         if (dadosJogo.qtd_erro == TENTATIVAS)
                 break;
@@ -242,6 +240,7 @@ int main() {
 
 
 
+
       break;
     case 3:
       printf("Saindo do programa. Até logo!\n");
@@ -252,6 +251,7 @@ int main() {
       break;
       }
         } while (escolha != 3);
+
 
         return 0;
       }
