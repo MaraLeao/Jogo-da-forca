@@ -2,9 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define TAM_MAX 250
-#define TENTATIVAS 7
+#define TENTATIVAS 6
+#define NUM_PALAVRA_ALT 30
 
 void desenharForca () 
 {
@@ -13,7 +15,8 @@ void desenharForca ()
 
 typedef struct {
     char    letra;
-    char    letras_erradas[6];
+    char    multiplayer;
+    char    letras_erradas[7];
     char    palavra[TAM_MAX];
     char    status_atual[TAM_MAX];
     bool    mascara[TAM_MAX];
@@ -23,6 +26,8 @@ typedef struct {
     int     qtd_erro;
     int     fim;
 } dadosPalavras;
+
+dadosPalavras dadosJogo;
 
 void resetarDados(dadosPalavras * dado) {
     //usei esses memset
@@ -36,15 +41,108 @@ void resetarDados(dadosPalavras * dado) {
 }
 
 
+char * banco_palavras[] = {
+        "cachorro", "gato", "elefante", "leao", "tigre",
+        "girafa", "macaco", "zebra", "coelho", "rato",
+        "pato", "coruja", "galo", "papagaio", "cobra",
+        "jacare", "tartaruga", "peixe", "tubarao", "baleia",
+        "golfinho", "vaca", "porco", "cavalo", "ovelha",
+        "aranha", "escorpiao", "lagarto", "pomba", "abelha"
+};
+
+char *escolhe_palavra_aleat(char **palavras_gp, int num_palavras_aleat) {
+    int num_aleat = rand() % num_palavras_aleat;
+    return palavras_gp[num_aleat];
+}
+
+void novaPalavra(dadosPalavras *dado) {
+  strcpy(dado->palavra,
+         escolhe_palavra_aleat(banco_palavras, NUM_PALAVRA_ALT)); // copia a palavra do banco de palavras
+  memset(dado->status_atual, '_', strlen(dadosJogo.palavra));
+}
+
+void desenharForca () 
+{
+   //desenho da forca fazendo uso do switch case
+    printf("\n\n");
+
+    switch (dadosJogo.qtd_erro) {
+    case 0:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 1:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 2:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf("  |   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 3:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|   |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 4:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\\  |\n");
+        printf("      |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 5:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\\  |\n");
+        printf(" /    |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    case 6:
+        printf("  +---+\n");
+        printf("  |   |\n");
+        printf("  O   |\n");
+        printf(" /|\\  |\n");
+        printf(" / \\  |\n");
+        printf("      |\n");
+        printf("=========\n");
+        break;
+    }
+}
+
+
+
+
 
 int main() {
 
-    const int TENTATIVAS = 6;
-    dadosPalavras dadosJogo;
-    char* p_letra = &dadosJogo.letra;
 
-    char palavra[250], letras_erradas[27], letra, status_atual;
-    int  qtd_erro = 0, qtd_acerto = 0, jogDaVez, qtd_jogadores, posicao, i;
+    srand(time(NULL));
+
+    char* p_letra = &dadosJogo.letra;
 
     //Perguntar quantojogadores sao
     printf("( ´･･)ﾉ(._.`)  Quantos jogadores irão participar?: ");
@@ -52,10 +150,25 @@ int main() {
 
     //Quantos jogadores sao
     resetarDados(&dadosJogo); //setar todos os dados pra 0
+    system("cls");
 
+    printf("Quer jogar multiplayer?[S/N]");
+    scanf("%c", &dadosJogo.multiplayer);
     //receber palavra chave
-    printf("(„• ֊ •„)  Digite a palavra escolhida: ");
+
+
+    printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma plavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos eno depreferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto! Agora escreva a plavra a ser adivinhada: ");
+
     scanf("%s", &dadosJogo.palavra);
+
+    if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
+        printf("Escreva a palavra: ");
+        scanf("%s", &dadosJogo.palavra);
+    } else {
+        novaPalavra(&dadosJogo);
+        printf("Escolhendo uma palavra ...");
+    }
+
 
     //escrever os tracinhos na quantidade de letras
     for (int i = 0; i < strlen(dadosJogo.palavra); i++) {
@@ -63,23 +176,23 @@ int main() {
     }
 
     do {
+        system("cls");
+
         dadosJogo.tentativaNaoVazia = false;
 
+        desenharForca();
         printf("%s\n", dadosJogo.status_atual);
+
         printf("(╥_╥) letras incorretas : [ %s ]\n", dadosJogo.letras_erradas);
 
-    //do
-        //if(qtd_jogadores > 1) 
-            //se jogDaVez % 2 = 0
-                printf("(ง'̀-'́)ง Vez do próximo jogador\n");
-@@ -27,17 +68,59 @@ int main() {
 
-        //aparecer forca e a quantidade de espaço de letras
+   
 
-        //pedir a letra da vez
         //receber a letra da vez
-        printf("(´｡• ◡ •｡`) Escreva uma letra: ");
+        printf("Prisioneiro, agora você deve adivinhar uma letra: ");
+
         scanf(" %c", &dadosJogo.letra);
+
 
         //for para ver se a letra tem pelo menos uma vez na palavra
         for (int i = 0; i <= strlen(dadosJogo.palavra); i++) {
@@ -109,6 +222,7 @@ int main() {
 
         } else if (dadosJogo.letraRepetida) {
             dadosJogo.qtd_erro++;
+
             printf("( • ᴖ • ｡) Voce ja utilizou essa letra, voce tem %d tentativas\n", (TENTATIVAS - dadosJogo.qtd_erro));
 
         } else {
@@ -131,16 +245,16 @@ int main() {
                 break;
 
 
+    } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
+      if (dadosJogo.fim) {
 
-    //while (o jogo continuar)
+          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! ");
+          printf("Deseja jogar novamente?[Y/N]:");
+      } else {
+          printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
 
+          printf("Deseja jogar novamente?[Y/N]:");
+      }
 
-    }
-    while (!dadosJogo.fim);
-
-    //se ganhar o jogo 
-         printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO☆༻*ੈ✩‧₊˚!\n ");
-    //senao
-         printf("Sinto muito, não foi dessa vez (T-T)\n  ");
 }
