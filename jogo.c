@@ -194,7 +194,7 @@ int main() {
     resetarDados(&dadosJogo); //setar todos os dados pra 0
 
     //receber palavra chave
-    printf("Escreva a palavra: ");
+    printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma plavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos eno depreferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto! Agora escreva a plavra a ser adivinhada: ");
     scanf("%s", &dadosJogo.palavra);
 
     //escrever os tracinhos na quantidade de letras
@@ -222,7 +222,7 @@ int main() {
         //aparecer forca e a quantidade de espaço de letras
 
         //receber a letra da vez
-        printf("Escreva a letra: ");
+        printf("Prisioneiro, agora você deve adivinhar uma letra: ");
         scanf(" %c", &dadosJogo.letra);
 
 
@@ -267,10 +267,10 @@ int main() {
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
       if (dadosJogo.fim) {
-          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO☆༻*ੈ✩‧₊˚!\n Deseja continuar?[Y/N]: ");
+          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! ");
           printf("Deseja jogar novamente?[Y/N]:");
       } else {
-          printf("Sinto muito, não foi dessa vez (T-T) ... A palavra era: %s\n", dadosJogo.palavra);
+          printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
           printf("Deseja jogar novamente?[Y/N]:");
       }
 
