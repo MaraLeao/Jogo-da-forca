@@ -19,6 +19,8 @@ typedef struct {
     int     fim;
 } dadosPalavras;
 
+dadosPalavras dadosJogo;
+
 void resetarDados(dadosPalavras * dado) {
     //usei esses memset
     memset(dado -> palavra, 0, TAM_MAX * sizeof(char));
@@ -35,8 +37,8 @@ void desenharForca ()
    //desenho da forca fazendo uso do switch case
     printf("\n\n");
 
-    switch (TENTATIVAS) {
-    case 6:
+    switch (dadosJogo.qtd_erro) {
+    case 0:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("      |\n");
@@ -45,7 +47,7 @@ void desenharForca ()
         printf("      |\n");
         printf("=========\n");
         break;
-    case 5:
+    case 1:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("  O   |\n");
@@ -54,7 +56,7 @@ void desenharForca ()
         printf("      |\n");
         printf("=========\n");
         break;
-    case 4:
+    case 2:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("  O   |\n");
@@ -72,7 +74,7 @@ void desenharForca ()
         printf("      |\n");
         printf("=========\n");
         break;
-    case 2:
+    case 4:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("  O   |\n");
@@ -81,21 +83,21 @@ void desenharForca ()
         printf("      |\n");
         printf("=========\n");
         break;
-    case 1:
+    case 5:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("  O   |\n");
-        printf(" /|\  |\n");
+        printf(" /|\\  |\n");
         printf(" /    |\n");
         printf("      |\n");
         printf("=========\n");
         break;
-    case 0:
+    case 6:
         printf("  +---+\n");
         printf("  |   |\n");
         printf("  O   |\n");
-        printf(" /|\  |\n");
-        printf(" / \  |\n");
+        printf(" /|\\  |\n");
+        printf(" / \\  |\n");
         printf("      |\n");
         printf("=========\n");
         break;
@@ -185,12 +187,8 @@ void frase(int opcao) {
 
 
 int main() {
-
-    dadosPalavras dadosJogo;
     char* p_letra = &dadosJogo.letra;
 
-
-    
     //Perguntar quantojogadores sao
 
     resetarDados(&dadosJogo); //setar todos os dados pra 0
@@ -207,7 +205,12 @@ int main() {
     do {
         dadosJogo.tentativaNaoVazia = false;
 
+        desenharForca();
         printf("%s\n", dadosJogo.status_atual);
+
+        // Quebra o loop
+        if (dadosJogo.qtd_erro == TENTATIVAS)
+                break;
         //printf("letras erradas: [ %s ]\n", dadosJogo.letras_erradas);
 
         //if(qtd_jogadores > 1) 
@@ -221,6 +224,7 @@ int main() {
         //receber a letra da vez
         printf("Escreva a letra: ");
         scanf(" %c", &dadosJogo.letra);
+
 
         //for para ver se a letra tem pelo menos uma vez na palavra
         for (int i = 0; i <= strlen(dadosJogo.palavra); i++) {
@@ -259,15 +263,6 @@ int main() {
             //strcat(dadosJogo.letras_erradas, p_letra); coloquei essa funcao aqui pra juntar as letras erradas, mas por algum motivo esta dando problema
             
         }
-
-        // Quebra o loop
-        if (dadosJogo.qtd_erro == TENTATIVAS)
-                break;
-            
-            
-        
-
-        
         
     }
     while (!dadosJogo.fim);
