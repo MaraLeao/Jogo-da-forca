@@ -2,12 +2,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define TAM_MAX 250
 #define TENTATIVAS 6
+#define NUM_PALAVRA_ALT 30
 
 typedef struct {
     char    letra;
+    char    multiplayer;
     char    letras_erradas[7];
     char    palavra[TAM_MAX];
     char    status_atual[TAM_MAX];
@@ -30,6 +33,26 @@ void resetarDados(dadosPalavras * dado) {
     dado -> qtd_jogadores = 0;
     dado -> tentativaNaoVazia = false;
     dado -> fim = false;
+}
+
+char * banco_palavras[] = {
+        "cachorro", "gato", "elefante", "leao", "tigre",
+        "girafa", "macaco", "zebra", "coelho", "rato",
+        "pato", "coruja", "galo", "papagaio", "cobra",
+        "jacare", "tartaruga", "peixe", "tubarao", "baleia",
+        "golfinho", "vaca", "porco", "cavalo", "ovelha",
+        "aranha", "escorpiao", "lagarto", "pomba", "abelha"
+};
+
+char *escolhe_palavra_aleat(char **palavras_gp, int num_palavras_aleat) {
+    int num_aleat = rand() % num_palavras_aleat;
+    return palavras_gp[num_aleat];
+}
+
+void novaPalavra(dadosPalavras *dado) {
+  strcpy(dado->palavra,
+         escolhe_palavra_aleat(banco_palavras, NUM_PALAVRA_ALT)); // copia a palavra do banco de palavras
+  memset(dado->status_atual, '_', strlen(dadosJogo.palavra));
 }
 
 void desenharForca () 
@@ -187,6 +210,9 @@ void frase(int opcao) {
 
 
 int main() {
+
+    srand(time(NULL));
+
     char* p_letra = &dadosJogo.letra;
 
     //Perguntar quantojogadores sao
@@ -194,9 +220,17 @@ int main() {
     resetarDados(&dadosJogo); //setar todos os dados pra 0
     system("cls");
 
+    printf("Quer jogar multiplayer?[S/N]");
+    scanf("%c", &dadosJogo.multiplayer);
     //receber palavra chave
-    printf("Escreva a palavra: ");
-    scanf("%s", &dadosJogo.palavra);
+    if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
+        printf("Escreva a palavra: ");
+        scanf("%s", &dadosJogo.palavra);
+    } else {
+        novaPalavra(&dadosJogo);
+        printf("Escolhendo uma palavra ...");
+    }
+
 
     //escrever os tracinhos na quantidade de letras
     for (int i = 0; i < strlen(dadosJogo.palavra); i++) {
