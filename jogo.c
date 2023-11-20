@@ -215,14 +215,10 @@ int main() {
 
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
-      if (dadosJogo.fim) {
-
-          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) ");
-          printf("Deseja jogar novamente?[Y/N]:");
-      } else {
-          printf("Prepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
-
-          printf("Deseja jogar novamente?[Y/N]:");
-      }
+        if (dadosJogo.fim) 
+            printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) ");
+        else 
+            printf("Prepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
+      
 
 }
