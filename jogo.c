@@ -9,6 +9,7 @@
 #define NUM_PALAVRA_ALT 30
 
 typedef struct {
+    char    jogardnv;
     char    letra;
     char    multiplayer;
     char    palavra[TAM_MAX];
@@ -27,6 +28,7 @@ void resetarDados(dadosPalavras * dado) {
     memset(dado -> palavra, 0, TAM_MAX * sizeof(char));
     memset(dado -> status_atual, 0, TAM_MAX * sizeof(char));
     memset(dado -> mascara, false, TAM_MAX * sizeof(bool));
+    dado -> jogardnv = 's';
     dado -> qtd_erro = 0;
     dado -> multiplayer = 0;
     dado -> tentativaNaoVazia = false;
@@ -128,11 +130,7 @@ void desenharForca ()
 
 
 int main() {
-
-
     srand(time(NULL));
-
-    char* p_letra = &dadosJogo.letra;
 
     //Quantos jogadores sao
     resetarDados(&dadosJogo); //setar todos os dados pra 0
@@ -215,14 +213,12 @@ int main() {
 
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
-      if (dadosJogo.fim) {
+    if (dadosJogo.fim) {
+        printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! \n");
+        printf("Deseja jogar novamente?[Y/N]:");
+    } else {
+        printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
+        printf("Deseja jogar novamente?[Y/N]:");
 
-          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! ");
-          printf("Deseja jogar novamente?[Y/N]:");
-      } else {
-          printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
-
-          printf("Deseja jogar novamente?[Y/N]:");
-      }
-
+    }
 }
