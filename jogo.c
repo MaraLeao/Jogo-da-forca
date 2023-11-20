@@ -4,11 +4,11 @@
 #include <stdbool.h>
 
 #define TAM_MAX 250
-#define TENTATIVAS 7
+#define TENTATIVAS 6
 
 typedef struct {
     char    letra;
-    char    letras_erradas[6];
+    char    letras_erradas[7];
     char    palavra[TAM_MAX];
     char    status_atual[TAM_MAX];
     bool    mascara[TAM_MAX];
@@ -192,6 +192,7 @@ int main() {
     //Perguntar quantojogadores sao
 
     resetarDados(&dadosJogo); //setar todos os dados pra 0
+    system("cls");
 
     //receber palavra chave
     printf("Escreva a palavra: ");
@@ -203,15 +204,15 @@ int main() {
     }
 
     do {
+        system("cls");
+
         dadosJogo.tentativaNaoVazia = false;
 
         desenharForca();
         printf("%s\n", dadosJogo.status_atual);
 
-        // Quebra o loop
-        if (dadosJogo.qtd_erro == TENTATIVAS)
-                break;
-        //printf("letras erradas: [ %s ]\n", dadosJogo.letras_erradas);
+        
+        printf("letras erradas: [ %s ]\n", dadosJogo.letras_erradas);
 
         //if(qtd_jogadores > 1) 
             //se jogDaVez % 2 = 0
@@ -220,6 +221,7 @@ int main() {
                 //print hora do jogador 1
 
         //aparecer forca e a quantidade de espaço de letras
+
 
         //receber a letra da vez
         printf("Escreva a letra: ");
@@ -259,18 +261,22 @@ int main() {
         } else {
             dadosJogo.qtd_erro++;
             printf("A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
-
-            //strcat(dadosJogo.letras_erradas, p_letra); coloquei essa funcao aqui pra juntar as letras erradas, mas por algum motivo esta dando problema
-
+            dadosJogo.letras_erradas[dadosJogo.qtd_erro] = dadosJogo.letra;
+            printf("%s", dadosJogo.letras_erradas);
+            
         }
+
+        // Quebra o loop
+        if (dadosJogo.qtd_erro == TENTATIVAS)
+                break;
 
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
       if (dadosJogo.fim) {
-          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO☆༻*ੈ✩‧₊˚!\n Deseja continuar?[Y/N]: ");
+          printf("\n*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO☆༻*ੈ✩‧₊˚!\n\n A palavra era: %s \n\nDeseja continuar?[Y/N]: ", dadosJogo.palavra);
           printf("Deseja jogar novamente?[Y/N]:");
       } else {
-          printf("Sinto muito, não foi dessa vez (T-T) ... A palavra era: %s\n", dadosJogo.palavra);
+          printf("\nSinto muito, não foi dessa vez (T-T) ... A palavra era: %s\n\n", dadosJogo.palavra);
           printf("Deseja jogar novamente?[Y/N]:");
       }
 
