@@ -129,8 +129,28 @@ void desenharForca ()
 
 int main() {
 
+  int escolha = 0;
 
-    srand(time(NULL));
+  do {
+    printf("  . . . . . ╰──╮☄. *. ⋆ MENU ☄. *. ⋆╭──╯ . . . . .\n");
+    printf(" \t ════ ⋆★⋆ ════ JOGO DA FORCA ════ ⋆★⋆════\n\n");
+    printf("integrantes: Maria Clara, Gabriel , Eduardo e Yasmin \n \n \n ");
+    printf(" ╔═*.·:·.✧ ✦ ✧.·:·.*═╗ \n  \t \t Opções\n\n");
+    printf(" \t1. Regras \n");
+    printf(" \t2. modos de jogo \n");
+    printf(" \t3. Sair \n\n");
+    printf("── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ──\n");
+    printf("Escolha uma opção: ");
+    scanf("%d", &escolha);
+
+    switch (escolha) {
+    case 1:
+      printf("\n\n regras:\n a) as palavras devem ser curtas ,\n b)você tem um "
+             "limte de 6 erros\n c) não utilize símbolos, acentuação ou "
+             "números\n\n ");
+      break;
+    case 2:
+         srand(time(NULL));
 
     char* p_letra = &dadosJogo.letra;
 
@@ -138,10 +158,10 @@ int main() {
     resetarDados(&dadosJogo); //setar todos os dados pra 0
     system("cls");
 
-    printf("Quer jogar multiplayer?[S/N]");
-    scanf("%c", &dadosJogo.multiplayer);
+    printf("Quer jogar multiplayer?[S/N] ");
+    scanf(" %c", &dadosJogo.multiplayer);
     //receber palavra chave
-    
+
     if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
         printf("\tBem-vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma palavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que a palavra não deve conter acentos então de preferência a palavra deve ter por volta de 6 letras. Lembre-se prisioneiro você apenas possui 6 chances, tome cuídado no que dita e lembre bem das letras, pois erros não serão tolerados e você perderá uma chance de viver.\n \n \n\tCarrasco, espero que esteja tudo pronto!");
         printf("Agora escreva a palavra a ser adivinhada:");
@@ -205,10 +225,8 @@ int main() {
         } else {
             dadosJogo.qtd_erro++;
             printf("(╯°□°）╯︵ ┻━┻ A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
-
         }
 
-        
         if (dadosJogo.qtd_erro == TENTATIVAS)
                 break;
 
@@ -219,6 +237,21 @@ int main() {
             printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) ");
         else 
             printf("Prepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
-      
 
-}
+
+
+
+      break;
+    case 3:
+      printf("Saindo do programa. Até logo!\n");
+      break;
+    default:
+      printf("\n\n\n»»-----------►Opção inválida. Escolha uma opção "
+             "válida.\n\n\n");
+      break;
+      }
+        } while (escolha != 3);
+
+
+        return 0;
+      }
