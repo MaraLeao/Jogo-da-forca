@@ -218,7 +218,7 @@ int main() {
                 //print hora do jogador 2
             //else
                 //print hora do jogador 1
-    
+
         //aparecer forca e a quantidade de espaço de letras
 
         //receber a letra da vez
@@ -255,23 +255,23 @@ int main() {
         } else if (dadosJogo.letraRepetida) {
             dadosJogo.qtd_erro++;
             printf("Voce ja adivinhou essa letra, voce tem %d tentativas\n", (TENTATIVAS - dadosJogo.qtd_erro));
-            
+
         } else {
             dadosJogo.qtd_erro++;
             printf("A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
-    
+
             //strcat(dadosJogo.letras_erradas, p_letra); coloquei essa funcao aqui pra juntar as letras erradas, mas por algum motivo esta dando problema
-            
+
         }
-        
-    }
-    while (!dadosJogo.fim);
 
-    //se ganhar o jogo 
-        //printar mensagem de vencedor
-    //senao
-        //vc perdeu, lamento
+    } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
-
+      if (dadosJogo.fim) {
+          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO☆༻*ੈ✩‧₊˚!\n Deseja continuar?[Y/N]: ");
+          printf("Deseja jogar novamente?[Y/N]:");
+      } else {
+          printf("Sinto muito, não foi dessa vez (T-T) ... A palavra era: %s\n", dadosJogo.palavra);
+          printf("Deseja jogar novamente?[Y/N]:");
+      }
 
 }
