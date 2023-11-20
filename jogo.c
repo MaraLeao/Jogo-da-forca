@@ -2,13 +2,16 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define TAM_MAX 250
-#define TENTATIVAS 7
+#define TENTATIVAS 6
+#define NUM_PALAVRA_ALT 30
 
 typedef struct {
     char    letra;
-    char    letras_erradas[6];
+    char    multiplayer;
+    char    letras_erradas[7];
     char    palavra[TAM_MAX];
     char    status_atual[TAM_MAX];
     bool    mascara[TAM_MAX];
@@ -30,6 +33,26 @@ void resetarDados(dadosPalavras * dado) {
     dado -> qtd_jogadores = 0;
     dado -> tentativaNaoVazia = false;
     dado -> fim = false;
+}
+
+char * banco_palavras[] = {
+        "cachorro", "gato", "elefante", "leao", "tigre",
+        "girafa", "macaco", "zebra", "coelho", "rato",
+        "pato", "coruja", "galo", "papagaio", "cobra",
+        "jacare", "tartaruga", "peixe", "tubarao", "baleia",
+        "golfinho", "vaca", "porco", "cavalo", "ovelha",
+        "aranha", "escorpiao", "lagarto", "pomba", "abelha"
+};
+
+char *escolhe_palavra_aleat(char **palavras_gp, int num_palavras_aleat) {
+    int num_aleat = rand() % num_palavras_aleat;
+    return palavras_gp[num_aleat];
+}
+
+void novaPalavra(dadosPalavras *dado) {
+  strcpy(dado->palavra,
+         escolhe_palavra_aleat(banco_palavras, NUM_PALAVRA_ALT)); // copia a palavra do banco de palavras
+  memset(dado->status_atual, '_', strlen(dadosJogo.palavra));
 }
 
 void desenharForca () 
@@ -187,15 +210,31 @@ void frase(int opcao) {
 
 
 int main() {
+
+    srand(time(NULL));
+
     char* p_letra = &dadosJogo.letra;
 
     //Perguntar quantojogadores sao
 
     resetarDados(&dadosJogo); //setar todos os dados pra 0
+    system("cls");
 
+    printf("Quer jogar multiplayer?[S/N]");
+    scanf("%c", &dadosJogo.multiplayer);
     //receber palavra chave
+
     printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma plavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos eno depreferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto! Agora escreva a plavra a ser adivinhada: ");
     scanf("%s", &dadosJogo.palavra);
+
+    if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
+        printf("Escreva a palavra: ");
+        scanf("%s", &dadosJogo.palavra);
+    } else {
+        novaPalavra(&dadosJogo);
+        printf("Escolhendo uma palavra ...");
+    }
+
 
     //escrever os tracinhos na quantidade de letras
     for (int i = 0; i < strlen(dadosJogo.palavra); i++) {
@@ -203,15 +242,15 @@ int main() {
     }
 
     do {
+        system("cls");
+
         dadosJogo.tentativaNaoVazia = false;
 
         desenharForca();
         printf("%s\n", dadosJogo.status_atual);
 
-        // Quebra o loop
-        if (dadosJogo.qtd_erro == TENTATIVAS)
-                break;
-        //printf("letras erradas: [ %s ]\n", dadosJogo.letras_erradas);
+        
+        printf("letras erradas: [ %s ]\n", dadosJogo.letras_erradas);
 
         //if(qtd_jogadores > 1) 
             //se jogDaVez % 2 = 0
@@ -220,6 +259,7 @@ int main() {
                 //print hora do jogador 1
 
         //aparecer forca e a quantidade de espaço de letras
+
 
         //receber a letra da vez
         printf("Prisioneiro, agora você deve adivinhar uma letra: ");
@@ -259,18 +299,24 @@ int main() {
         } else {
             dadosJogo.qtd_erro++;
             printf("A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
-
-            //strcat(dadosJogo.letras_erradas, p_letra); coloquei essa funcao aqui pra juntar as letras erradas, mas por algum motivo esta dando problema
-
+            dadosJogo.letras_erradas[dadosJogo.qtd_erro] = dadosJogo.letra;
+            printf("%s", dadosJogo.letras_erradas);
+            
         }
+
+        // Quebra o loop
+        if (dadosJogo.qtd_erro == TENTATIVAS)
+                break;
 
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
       if (dadosJogo.fim) {
+
           printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! ");
           printf("Deseja jogar novamente?[Y/N]:");
       } else {
           printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
+
           printf("Deseja jogar novamente?[Y/N]:");
       }
 
