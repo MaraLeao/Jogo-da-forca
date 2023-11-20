@@ -9,7 +9,6 @@
 #define NUM_PALAVRA_ALT 30
 
 typedef struct {
-    char    jogardnv;
     char    letra;
     char    multiplayer;
     char    palavra[TAM_MAX];
@@ -28,7 +27,6 @@ void resetarDados(dadosPalavras * dado) {
     memset(dado -> palavra, 0, TAM_MAX * sizeof(char));
     memset(dado -> status_atual, 0, TAM_MAX * sizeof(char));
     memset(dado -> mascara, false, TAM_MAX * sizeof(bool));
-    dado -> jogardnv = 's';
     dado -> qtd_erro = 0;
     dado -> multiplayer = 0;
     dado -> tentativaNaoVazia = false;
@@ -130,7 +128,11 @@ void desenharForca ()
 
 
 int main() {
+
+
     srand(time(NULL));
+
+    char* p_letra = &dadosJogo.letra;
 
     //Quantos jogadores sao
     resetarDados(&dadosJogo); //setar todos os dados pra 0
@@ -141,12 +143,12 @@ int main() {
     //receber palavra chave
     
     if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
-        printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma palavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos entao de preferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto!");
+        printf("\tBem-vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma palavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que a palavra não deve conter acentos então de preferência a palavra deve ter por volta de 6 letras. Lembre-se prisioneiro você apenas possui 6 chances, tome cuídado no que dita e lembre bem das letras, pois erros não serão tolerados e você perderá uma chance de viver.\n \n \n\tCarrasco, espero que esteja tudo pronto!");
         printf("Agora escreva a palavra a ser adivinhada:");
         scanf("%s", &dadosJogo.palavra);
     } else {
         novaPalavra(&dadosJogo);
-        printf("Escolhendo uma palavra ...");
+        printf("\tBem-vindo a FORCA singleplayer, isso significa que você não tem amigos. Como prisioneiro você apenas possuí 6 chances para poder acertas todas as letras das palavras,tome cuídado no que dita e lembre bem das letras, pois erros não serão tolerados e você perderá uma chance de viver. Vamos começar!");
     }
 
 
@@ -185,7 +187,7 @@ int main() {
 
         // sequencia de if para colocar a letra na palavra ou tirar ponto
         if(dadosJogo.tentativaNaoVazia) {
-            printf("✧⁺⸜(●′▾‵●)⸝⁺✧ A LETRA %c ESTÁ NA PALAVRA!!\n", dadosJogo.letra);
+            printf(" ლ(ಠ益ಠლ). VOCÊ DEU SORTE LETRA %c ESTÁ NA PALAVRA!!\n", dadosJogo.letra);
             for(int i = 0; i <= strlen(dadosJogo.palavra); i++) {
                 if (dadosJogo.mascara[i]) {
                     dadosJogo.status_atual[i] = dadosJogo.palavra[i];
@@ -198,11 +200,11 @@ int main() {
         } else if (dadosJogo.letraRepetida) {
             dadosJogo.qtd_erro++;
 
-            printf("( • ᴖ • ｡) Voce ja utilizou essa letra, voce tem %d tentativas\n", (TENTATIVAS - dadosJogo.qtd_erro));
+            printf("(≖᷆︵︣≖)👎 Voce ja utilizou essa letra, voce tem %d tentativas\n", (TENTATIVAS - dadosJogo.qtd_erro));
 
         } else {
             dadosJogo.qtd_erro++;
-            printf("(｡•́︿•̀｡) A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
+            printf("(╯°□°）╯︵ ┻━┻ A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
 
         }
 
@@ -213,12 +215,14 @@ int main() {
 
     } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
-    if (dadosJogo.fim) {
-        printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA.☆༻*ੈ✩‧₊˚! \n");
-        printf("Deseja jogar novamente?[Y/N]:");
-    } else {
-        printf("Prepare-se para o seu fim (((＼（✘෴✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
-        printf("Deseja jogar novamente?[Y/N]:");
+      if (dadosJogo.fim) {
 
-    }
+          printf("*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) ");
+          printf("Deseja jogar novamente?[Y/N]:");
+      } else {
+          printf("Prepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
+
+          printf("Deseja jogar novamente?[Y/N]:");
+      }
+
 }
