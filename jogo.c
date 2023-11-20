@@ -8,21 +8,14 @@
 #define TENTATIVAS 6
 #define NUM_PALAVRA_ALT 30
 
-void desenharForca () 
-{
-    //array da forca(com o indice 0 sendo o desenho da forca)
-}
-
 typedef struct {
     char    letra;
     char    multiplayer;
-    char    letras_erradas[7];
     char    palavra[TAM_MAX];
     char    status_atual[TAM_MAX];
     bool    mascara[TAM_MAX];
     bool    tentativaNaoVazia;
     bool    letraRepetida;
-    int     qtd_jogadores;
     int     qtd_erro;
     int     fim;
 } dadosPalavras;
@@ -35,7 +28,7 @@ void resetarDados(dadosPalavras * dado) {
     memset(dado -> status_atual, 0, TAM_MAX * sizeof(char));
     memset(dado -> mascara, false, TAM_MAX * sizeof(bool));
     dado -> qtd_erro = 0;
-    dado -> qtd_jogadores = 0;
+    dado -> multiplayer = 0;
     dado -> tentativaNaoVazia = false;
     dado -> fim = false;
 }
@@ -134,19 +127,12 @@ void desenharForca ()
 }
 
 
-
-
-
 int main() {
 
 
     srand(time(NULL));
 
     char* p_letra = &dadosJogo.letra;
-
-    //Perguntar quantojogadores sao
-    printf("( ´･･)ﾉ(._.`)  Quantos jogadores irão participar?: ");
-    scanf("%d", &qtd_jogadores);
 
     //Quantos jogadores sao
     resetarDados(&dadosJogo); //setar todos os dados pra 0
@@ -155,14 +141,10 @@ int main() {
     printf("Quer jogar multiplayer?[S/N]");
     scanf("%c", &dadosJogo.multiplayer);
     //receber palavra chave
-
-
-    printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma plavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos eno depreferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto! Agora escreva a plavra a ser adivinhada: ");
-
-    scanf("%s", &dadosJogo.palavra);
-
+    
     if(dadosJogo.multiplayer == 'S' || dadosJogo.multiplayer == 's') {
-        printf("Escreva a palavra: ");
+        printf("\tBem vindo a FORCA, o jogo basicamente consiste em um Carrasco que irá decidir uma palavra e um prisioneiro que está a um fio de ser executado que tentará adivinhar a palavra escolhida.\n\n\tCarrasco, coloque a venda no prisioneiro e prepare a corda, agora você deve digitar uma palavra para que o prisioneiro possa adivinha, vale lembrar que as palavras não devem conter acentos entao de preferência devem ter por volta de 6 letras\n \n \n\tCarrasco, espero que esteja tudo pronto!");
+        printf("Agora escreva a palavra a ser adivinhada:");
         scanf("%s", &dadosJogo.palavra);
     } else {
         novaPalavra(&dadosJogo);
@@ -181,12 +163,7 @@ int main() {
         dadosJogo.tentativaNaoVazia = false;
 
         desenharForca();
-        printf("%s\n", dadosJogo.status_atual);
-
-        printf("(╥_╥) letras incorretas : [ %s ]\n", dadosJogo.letras_erradas);
-
-
-   
+        printf("%s\n", dadosJogo.status_atual);   
 
         //receber a letra da vez
         printf("Prisioneiro, agora você deve adivinhar uma letra: ");
@@ -229,18 +206,9 @@ int main() {
             dadosJogo.qtd_erro++;
             printf("(｡•́︿•̀｡) A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
 
-            //strcat(dadosJogo.letras_erradas, p_letra); coloquei essa funcao aqui pra juntar as letras erradas, mas por algum motivo esta dando problema
-
         }
 
-        //for para comparar a letra com as letras da palavra
-            //se tiver uma letra igual a alguma letra da palavra 
-                //qtd de acerto ++
-                //
-            //senao, 
-                //qtd_erro++
-                //desenhar forca com um membro a mais
-        // Quebra o loop
+        
         if (dadosJogo.qtd_erro == TENTATIVAS)
                 break;
 
