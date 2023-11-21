@@ -242,9 +242,9 @@ int main() {
         } while (!dadosJogo.fim && dadosJogo.qtd_erro < TENTATIVAS);
 
             if (dadosJogo.fim) 
-                printf("\n*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) \n");
+                printf("\n*ੈ✩‧₊˚༺˚  PARABÉNS!!! VOCÊ GANHOU O JOGO, AGORA VOCÊ PODERÁ VIVER MAIS UM DIA, MAS LEMBRE-SE A MORTE O AGUARDA!(x_x) \n\n\n");
             else 
-                printf("\nPrepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n", dadosJogo.palavra);
+                printf("\nPrepare-se para o seu fim (((＼（✘ ෴ ✘）／))) ... A palavra era: %s\n\n\n", dadosJogo.palavra);
 
       break;
         case 3:
