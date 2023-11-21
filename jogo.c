@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <locale.h>
 #include <time.h>
 
 #define TAM_MAX 250
@@ -130,7 +131,8 @@ void desenharForca ()
 
 
 int main() {
-
+    setlocale(0, "Portuguese");
+    int i;
     int escolha = 0;
     system("cls");
 
@@ -179,7 +181,7 @@ int main() {
 
 
                 //escrever os tracinhos na quantidade de letras
-                for (int i = 0; i < strlen(dadosJogo.palavra); i++) {
+                for ( i = 0; i < strlen(dadosJogo.palavra); i++) {
                         dadosJogo.status_atual[i]= '_';
                 }
 
@@ -196,7 +198,7 @@ int main() {
                     scanf(" %c", &dadosJogo.letra);
 
                     //for para ver se a letra aparece pelo menos uma vez na palavra
-                    for (int i = 0; i <= strlen(dadosJogo.palavra); i++) {
+                    for (i = 0; i <= strlen(dadosJogo.palavra); i++) {
 
                         if (dadosJogo.palavra[i] == dadosJogo.letra) {
                             if(dadosJogo.status_atual[i] == dadosJogo.letra) {
@@ -212,8 +214,9 @@ int main() {
                     // sequencia de if para colocar a letra na palavra ou tirar ponto
                     if(dadosJogo.tentativaNaoVazia) {
                         printf(" ლ(ಠ益ಠლ). VOCÊ DEU SORTE LETRA %c ESTÁ NA PALAVRA!!\n", dadosJogo.letra);
+                        
 
-                        for(int i = 0; i <= strlen(dadosJogo.palavra); i++) {
+                        for(i = 0; i <= strlen(dadosJogo.palavra); i++) {
                             if (dadosJogo.mascara[i]) {
                                 dadosJogo.status_atual[i] = dadosJogo.palavra[i];  //atualiza o status atual pra letra que acertou
                             } 
@@ -225,10 +228,12 @@ int main() {
                     } else if (dadosJogo.letraRepetida) {
                         dadosJogo.qtd_erro++; 
                         printf("(≖᷆︵︣≖)👎 Voce ja utilizou essa letra, voce tem %d tentativas\n", (TENTATIVAS - dadosJogo.qtd_erro));
+                        
 
                     } else {
                         dadosJogo.qtd_erro++;
                         printf("(╯°□°）╯︵ ┻━┻ A letra %c nao esta na palavra, voce tem %d tentativas\n", dadosJogo.letra, (TENTATIVAS - dadosJogo.qtd_erro));
+                        
                     }
 
 
