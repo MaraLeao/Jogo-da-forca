@@ -44,7 +44,7 @@ char * banco_palavras[] = {
     "golfinho", "vaca", "porco", "cavalo", "ovelha",
     "aranha", "escorpiao", "lagarto", "pomba", "abelha"
 };
-
+  
 //função para escolher uma palavra do banco
 char *escolhe_palavra_aleat(char **palavras_gp, int num_palavras_aleat) {
     //gera um numero aleatorio com o rand() para servir de indice do array banco_palavras, e o "%" nesse caso serve para   delimitar o indice apenas menor que a qtd de palavras
@@ -186,7 +186,6 @@ int main() {
                 }
 
                 do {
-                    system("cls");
 
                     dadosJogo.tentativaNaoVazia = false;//resetando a variavel para false
 
